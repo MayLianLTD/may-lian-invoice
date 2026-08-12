@@ -38,7 +38,7 @@ function InvoiceDoc({ invoice }) {
           React.createElement(Text, {}, `Invoice #${String(invoice.number).padStart(5, '0')}`),
           React.createElement(Text, {}, `Date: ${invoice.invoice_date}`)
         ),
-        React.createElement(Text, { style: styles.label }, `Reference: Invoice #${String(invoice.number).padStart(5, '0')}`),
+        React.createElement(Text, { style: { ...styles.label, fontSize: 12, marginTop: 4 } }, `Reference: #${String(invoice.number).padStart(5, '0')}`),
         React.createElement(Text, { style: { marginTop: 6 } }, `Bill to: ${c?.name || ''}`)
       ),
       React.createElement(View, { style: styles.divider }),
