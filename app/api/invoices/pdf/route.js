@@ -33,9 +33,10 @@ function InvoiceDoc({ invoice }) {
       React.createElement(View, { style: styles.section },
         React.createElement(View, { style: styles.row },
           React.createElement(Text, {}, `Invoice #${String(invoice.number).padStart(5, '0')}`),
-          React.createElement(Text, {}, invoice.invoice_date)
+          React.createElement(Text, {}, `Date: ${invoice.invoice_date}`)
         ),
-        React.createElement(Text, { style: styles.label }, `Bill to: ${c?.name || ''}`)
+        React.createElement(Text, { style: styles.label }, `Reference: Invoice #${String(invoice.number).padStart(5, '0')}`),
+        React.createElement(Text, { style: { marginTop: 6 } }, `Bill to: ${c?.name || ''}`)
       ),
       React.createElement(View, { style: styles.divider }),
       React.createElement(Text, {}, invoice.description),
@@ -54,6 +55,7 @@ function InvoiceDoc({ invoice }) {
       ),
       React.createElement(View, { style: styles.footer },
         React.createElement(Text, {}, 'Payment due within 10 business days.'),
+        React.createElement(Text, {}, `Bank account name: ${BIZ.name}`),
         React.createElement(Text, {}, `Bank: ${BIZ.bankName} ${BIZ.bankNumber}`)
       )
     )
