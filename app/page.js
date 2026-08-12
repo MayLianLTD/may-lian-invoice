@@ -200,7 +200,7 @@ export default function Home() {
               <div style={{ display: 'flex', gap: 8, marginTop: 10 }}>
                 <a href={`/api/invoices/pdf?id=${inv.id}`} target="_blank" rel="noreferrer" style={secondaryBtnLink}>{t.viewPdf}</a>
                 <button onClick={() => sendEmail(inv)} disabled={busy} style={primaryBtnSmall}>{t.sendEmail}</button>
-                <button onClick={() => togglePaid(inv)} style={secondaryBtn}>{inv.paid ? t.unpaid : t.paid}</button>
+                <button onClick={() => togglePaid(inv)} style={inv.paid ? paidBtn : unpaidBtn}>{inv.paid ? t.unpaid : t.paid}</button>
               </div>
             </div>
           ))}
@@ -215,4 +215,6 @@ const primaryBtn = { padding: '10px 16px', borderRadius: 6, border: 'none', back
 const primaryBtnSmall = { ...primaryBtn, padding: '6px 12px', fontSize: 13 };
 const secondaryBtn = { padding: '6px 12px', borderRadius: 6, border: '1px solid #ccc', background: '#fff', fontSize: 13, cursor: 'pointer' };
 const secondaryBtnLink = { ...secondaryBtn, textDecoration: 'none', color: '#111', display: 'inline-flex', alignItems: 'center' };
+const paidBtn = { ...secondaryBtn, background: '#2a7a2a', color: '#fff', border: '1px solid #2a7a2a' };
+const unpaidBtn = { ...secondaryBtn, background: '#b02a2a', color: '#fff', border: '1px solid #b02a2a' };
 const errStyle = { color: '#b02a2a', fontSize: 12 };
