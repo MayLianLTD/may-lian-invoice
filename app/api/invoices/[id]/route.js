@@ -1,8 +1,8 @@
 import { supabase } from '@/lib/supabase';
 import { NextResponse } from 'next/server';
 
-export async function PATCH(req, { params }) {
-  const { id } = params;
+export async function PATCH(req, context) {
+  const { id } = await context.params;
   const body = await req.json();
 
   const { data, error } = await supabase
@@ -16,8 +16,8 @@ export async function PATCH(req, { params }) {
   return NextResponse.json(data);
 }
 
-export async function DELETE(req, { params }) {
-  const { id } = params;
+export async function DELETE(req, context) {
+  const { id } = await context.params;
   const { error } = await supabase.from('invoices').delete().eq('id', id);
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
   return NextResponse.json({ ok: true });
