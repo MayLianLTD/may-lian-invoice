@@ -59,7 +59,8 @@ function InvoiceDoc({ invoice }) {
       React.createElement(View, { style: styles.footer },
         React.createElement(Text, {}, 'Payment due within 10 business days.'),
         React.createElement(Text, {}, `Bank account name: ${BIZ.name}`),
-        React.createElement(Text, {}, `Bank: ${BIZ.bankName} ${BIZ.bankNumber}`)
+        React.createElement(Text, {}, `Bank: ${BIZ.bankName} ${BIZ.bankNumber}`),
+        React.createElement(Text, {}, 'Questions about this invoice? Email may20030823@gmail.com')
       )
     )
   );
@@ -85,8 +86,9 @@ export async function POST(req) {
     const result = await resend.emails.send({
       from: process.env.RESEND_FROM_EMAIL, // e.g. 'MAY LIAN LTD <invoices@yourdomain.com>'
       to: invoice.customers.email,
+      reply_to: 'may20030823@gmail.com',
       subject: `Invoice #${numberPadded} — ${BIZ.name}`,
-      text: `Hi ${invoice.customers.name},\n\nPlease find attached invoice #${numberPadded} dated ${invoice.invoice_date} for $${Number(invoice.total).toFixed(2)} NZD.\n\nPayment due within 10 business days.\nBank: ${BIZ.bankName} ${BIZ.bankNumber}\n\nThank you,\n${BIZ.name}`,
+      text: `Hi ${invoice.customers.name},\n\nPlease find attached invoice #${numberPadded} dated ${invoice.invoice_date} for $${Number(invoice.total).toFixed(2)} NZD.\n\nPayment due within 10 business days.\nBank: ${BIZ.bankName} ${BIZ.bankNumber}\n\nQuestions about this invoice? Email may20030823@gmail.com\n\nThank you,\n${BIZ.name}`,
       attachments: [
         {
           filename: `invoice-${numberPadded}.pdf`,
@@ -94,6 +96,7 @@ export async function POST(req) {
         },
       ],
     });
+    await supabase.from('invoices').update({ email_sent_at: new Date().toISOString() }).eq('id', invoice_id);
     return NextResponse.json({ ok: true, result });
   } catch (e) {
     return NextResponse.json({ error: e.message }, { status: 500 });
